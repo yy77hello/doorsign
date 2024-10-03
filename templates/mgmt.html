@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <title>Room Management</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#toggleStatus").click(function () {
+          $.ajax({
+            url: "/update_status",
+            type: "POST",
+            success: function (response) {
+              if (response.status === "success") {
+                $('p:contains("Room Status:")').text(
+                  "Room Status: " + response.new_status
+                );
+                updateHeaderColor(response.new_status);
+              }
+            },
+          });
+        });
+
+        function updateHeaderColor(status) {
+          var color =
+            status === "Closed"
+              ? "red"
+              : status === "Open"
+              ? "#38ab3d"
+              : "#ad8e31";
+          $(".top-header").css("background-color", color);
+        }
+
+        function fetchMessages() {
+          $.getJSON("/get_messages", function (data) {
+            var messageList = $("#messageList");
+            messageList.empty();
+            data.forEach(function (message) {
+              messageList.append(
+                "<p>" + message.timestamp + ": " + message.text + "</p>"
+              );
+            });
+          });
+        }
+
+        $("#clearMessages").click(function () {
+          $.ajax({
+            url: "/clear_messages",
+            type: "POST",
+            success: function (response) {
+              if (response.status === "success") {
+                fetchMessages();
+              }
+            },
+          });
+        });
+
+        setInterval(fetchMessages, 1000); // Fetch messages every second
+      });
+    </script>
+  </head>
+  <body>
+    <div class="top-header">
+      <div class="header-content">
+        <h1 class="room-name">Room Management</h1>
+      </div>
+    </div>
+    <div class="content">
+      <button id="toggleStatus">Toggle Room Status</button>
+      <form method="POST">
+        <label for="message">Submit a message:</label>
+        <input
+          type="text"
+          id="message"
+          name="message"
+          style="margin-bottom: 1rem"
+        />
+        <button type="submit">Submit</button>
+      </form>
+      <form method="POST">
+        <label for="office_hours">Set Office Hours:</label><br />
+        <textarea
+          id="office_hours"
+          name="office_hours"
+          style="margin-bottom: 1rem"
+        ></textarea
+        ><br />
+        <button type="submit">Set Office Hours</button>
+      </form>
+      <form method="POST">
+        <label for="room_name">Room name:</label>
+        <input
+          type="text"
+          id="room_name"
+          name="room_name"
+          style="margin-bottom: 1rem"
+        />
+        <button type="submit">Set Room Name</button>
+      </form>
+    </div>
+    <div class="content">
+      <h2>Current Status</h2>
+      <p>Room Status: {{ room_status }}</p>
+      <p>Office Hours: {{ office_hours }}</p>
+      <p>Room Name: {{ room_name }}</p>
+    </div>
+    <div class="content">
+      <h2>Messages</h2>
+      <div id="messageList"></div>
+      <button id="clearMessages">Clear All Messages</button>
+    </div>
+    <a href="/">Back to Main Page</a>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <title id="roomName">{{ room_name }}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function fetchUpdates() {
+        $.getJSON("/updates", function (data) {
+          $("#currentTime").text(data.current_time);
+		  $("#currentMessage").text(data.current_message);
+          $("#roomStatus").text(data.room_status);
+          $("#officeHours").text(data.office_hours);
+          $("#roomName").text(data.room_name);
+          $("title").text(data.room_name);
+
+          // Update header color
+          var color =
+            data.room_status === "Closed"
+              ? "red"
+              : data.room_status === "Open"
+              ? "#38ab3d"
+              : "#ad8e31";
+          $(".top-header").css("background-color", color);
+        });
+      }
+
+      $(document).ready(function () {
+        setInterval(fetchUpdates, 1000); // Fetch updates every second
+
+        $(".message-btn").click(function () {
+          sendMessage($(this).data("message"));
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="top-header">
+      <div class="header-content">
+        <h1 class="room-name" id="roomName">{{ room_name }}</h1>
+        <h2 class="room-status" id="roomStatus">{{ room_status }}</h2>
+      </div>
+    </div>
+    <div class="main-container">
+      <div class="content">
+        <p class="date-time" id="currentTime">{{ current_time }}</p>
+		<p class="message" id="currentMessage">{{ current_message }}</p>
+        <div class="message-buttons">
+          <p class="h1">Send a message!</p>
+          <button class="message-btn" data-message="I am waiting">
+            I am waiting
+          </button>
+          <button class="message-btn" data-message="Need assistance, please">
+            Need assistance, please
+          </button>
+          <button
+            class="message-btn"
+            data-message="I dropped off some documents"
+          >
+            I dropped off some documents.
+          </button>
+          <button
+            class="message-btn"
+            data-message="Hope you're having a great day!"
+          >
+            Hope you're having a great day!
+          </button>
+          <br />
+          <img src="{{ url_for('static', filename='qrcode.png') }}" />
+        </div>
+      </div>
+      <div class="sidenav">
+        <h1 style="font-weight: bold">Office Hours</h1>
+        <p id="officeHours">{{ office_hours }}</p>
+      </div>
+    </div>
+  </body>
+</html>
