@@ -8,6 +8,7 @@ room_name = "Room"
 room_status = "Closed"
 messages = []
 office_hours = "Not set"
+current_message = ""
 
 @app.route('/')
 def index():
@@ -23,8 +24,8 @@ def mgmt():
     if request.method == 'POST':
         if 'room_name' in request.form:
             room_name = request.form['room_name']
-        elif 'message' in request.form:
-            current_message = request.form['message']
+        elif 'current_message' in request.form:
+            current_message = request.form['current_message']
         elif 'office_hours' in request.form:
             office_hours = request.form['office_hours']
 
