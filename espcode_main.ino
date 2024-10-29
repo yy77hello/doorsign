@@ -12,7 +12,7 @@ const char* password = "Enter here";
 #define emailRecipient        "Enter here"
 #define smtpServer            "smtp.gmail.com"
 #define smtpServerPort        587
-
+ 
 // Flash configuration
 const byte flashPin = 4;  // GPIO4 for ESP32-CAM flash
 const byte ledPin = 2;     // GPIO2 for flickering LED (change as needed)
@@ -94,6 +94,7 @@ void setup() {
     }
     Serial.println("Camera initialized successfully");
         flashOn(); // Flicker LED 
+        takePictureAndSendEmail();
         delay(300); // Keep it on for a brief moment
         flashOff(); // Turn off the LED after flickering
 
@@ -108,6 +109,7 @@ void loop() {
             delay(300); // Keep it on for a brief moment
             flashOff(); // Turn off the LED after flickering                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             Serial.println("Taking picture command received."); // Debug statement
+
             takePictureAndSendEmail();
         }
     }
@@ -168,14 +170,12 @@ void takePictureAndSendEmail() {
    while (!emailSent && retries > 0) {
        if (smtp.connect(&session)) {
            Serial.println("Session exists");
-           /*
            if (MailClient.sendMail(&smtp, &message)) {
                Serial.println("Email sent successfully");
                emailSent = true;
            } else {
                Serial.println("Error sending Email, " + smtp.errorReason());
            }
-           */
        } else {
            Serial.println("SMTP server connection failed");
        }
