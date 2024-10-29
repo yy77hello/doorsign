@@ -6,7 +6,7 @@ This project is a dynamic office management solution built with Flask, featuring
 
 - **Communicate information to visitors on the webpage**
 
-- **Customizable QR Code to allow visitors to send an email to you**:
+- **Customizable QR Code to allow visitors to send an email to you**
   
 - **Be notified when someone uses the webpage by detecting taps and then sending an email containing an image of the detected user**
 
