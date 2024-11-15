@@ -38,23 +38,31 @@ This project is a dynamic office management solution built with Flask, featuring
 
 ### Flask Application
 
-1. Clone the repository:
+1. Clone the repository
 
 2. Install dependencies:
 
+Arduino:
 - Arduino IDE for uploading esp32-cam code
 - ESP32 MailClient library
 - ESP32 WiFi library
 
-3. Run the Flask app:
+Python:
+- OpenCV (cv2): For image processing and drawing3.
+- NumPy (numpy): For numerical operations and array handling3.
+- PyMuPDF (fitz): For PDF parsing and text extraction3.
+- pdf2image: For converting PDF pages to images3.
+- Pillow: Required by pdf2image for image processing
 
-python app.py
+You can install these python dependencies using ```pip install opencv-python numpy PyMuPDF pdf2image Pillow```
 
-### Configure QR Code**
+3. Run the Flask app using ```python app.py```
 
-1. Upload your own qrcode by placing qrcode.png into /static/ directory
+### Configure QR Code
 
-### ESP32-CAM (Optional)
+1. Upload your own qrcode by placing qrcode.png into ```/static/ directory```
+
+### ESP32-CAM 
 
 1. Update Wi-Fi credentials in the ESP32 code
 2. Configure email settings (SMTP server, sender, recipient)
