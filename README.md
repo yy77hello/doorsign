@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a dynamic office management solution built with Flask, featuring real-time status updates and optional ESP32-CAM integration for enhanced visitor monitoring.
+This project is a dynamic office management solution built with Flask, featuring real-time status updates, optional ESP32-CAM integration for enhanced visitor monitoring, and helping visitors to navigate office buildings.
 
 - **Communicate information to visitors on the webpage**
 
@@ -56,7 +56,10 @@ Python:
 
 You can install these python dependencies using ```pip install opencv-python numpy PyMuPDF pdf2image Pillow```
 
-3. Run the Flask app using ```python app.py```
+## Usage
+Run the Flask app using ```python app.py```
+- Access the main dashboard at `http://localhost:5000`, or the provided address when running 'python app.py'
+- Use the management interface at `http://localhost:5000/mgmt`
 
 ### Configure QR Code
 
@@ -68,7 +71,10 @@ You can install these python dependencies using ```pip install opencv-python num
 2. Configure email settings (SMTP server, sender, recipient)
 3. Flash the code to your ESP32-CAM module
 
-## Usage
-
-- Access the main dashboard at `http://localhost:5000`, or the provided address when running 'python app.py'
-- Use the management interface at `http://localhost:5000/mgmt`
+### Navigation feature
+Make sure to set your current room within the ```process_naviation``` file
+The ```process_naviation``` algorithm is based off the following assumptions about input pdf files:
+1. 3-digit room numbers, with an optional letter before or after (123, A123, 123A)
+2. Staircase room names begin with the letter Z
+3. All relevant PDFs are in a directory named "maps"
+Command line usage: ```Usage: python process_navigation.py <destination_room>```
