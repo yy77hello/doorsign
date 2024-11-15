@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from datetime import datetime
+from flask import send_file
+from contextlib import contextmanager
 import serial
 import platform
 import logging
-from contextlib import contextmanager
+import subprocess
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -46,9 +49,19 @@ def index():
     return render_template('index.html', room_name=room_name, room_status=room_status,
                            office_hours=office_hours, current_time=current_time)
 
-@app.route('/navigate')
+@app.route('/navigate', methods=['GET', 'POST'])
 def navigate():
+    if request.method == 'POST':
+        destination = request.form['destination']
+        # Call the external Python script
+        subprocess.run(['python', 'process_navigation.py', destination])
+        # Redirect to the route display page
+        return redirect(url_for('display_route'))
     return render_template('navigate.html')
+
+@app.route('/display_route')
+def display_route():
+    return send_file('route.jpg', mimetype='image/jpeg')
 
 @app.route('/take_picture')
 def take_picture():

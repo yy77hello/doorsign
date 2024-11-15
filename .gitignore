@@ -1,4 +1,6 @@
+__pycache__
 static/qrcode.jpg
 uploads/*
 maps/*
-__pycache__
+route*
+development_espcode_main.ino

@@ -12,7 +12,7 @@ const char* password = "Enter here";
 #define emailRecipient        "Enter here"
 #define smtpServer            "smtp.gmail.com"
 #define smtpServerPort        587
- 
+
 // Flash configuration
 const byte flashPin = 4;  // GPIO4 for ESP32-CAM flash
 const byte ledPin = 2;     // GPIO2 for flickering LED (change as needed)

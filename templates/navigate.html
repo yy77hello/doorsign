@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navigate</title>
+  </head>
+  <body>
+    <h1>Navigation</h1>
+    <form action="{{ url_for('navigate') }}" method="post">
+      <label for="destination">Enter destination room number:</label>
+      <input
+        type="text"
+        id="destination"
+        name="destination"
+        pattern="\d{3}"
+        required
+      />
+      <button type="submit">Navigate</button>
+    </form>
+  </body>
+</html>
