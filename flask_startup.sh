@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd /home/psu/Desktop/flask
-python app.py &
+python3 app.py &
 sleep 5
-chromium-browser --kiosk http://0.0.0.0:5000 &
+chromium-browser --start-fullscreen http://localhost:5000

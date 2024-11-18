@@ -13,10 +13,21 @@
         type="text"
         id="destination"
         name="destination"
-        pattern="\d{3}"
+        pattern="(\d{3}[a-zA-Z]?|[a-zA-Z]\d{3})"
         required
       />
       <button type="submit">Navigate</button>
+    </form>
+
+    <h2>See a map</h2>
+    <form action="{{ url_for('view_map') }}" method="post">
+      <select name="map_file" id="map_file" required>
+        <option value="">Select a map</option>
+        {% for map in map_files %}
+        <option value="{{ map }}">{{ map }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">View Map</button>
     </form>
   </body>
 </html>

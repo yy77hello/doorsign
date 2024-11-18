@@ -77,14 +77,7 @@
       <div class="sidenav">
         <h1 style="font-weight: bold">Office Hours</h1>
         <p id="officeHours">{{ office_hours }}</p>
-        <a href="{{ url_for('navigate') }}">Navigate to a Room</a>
       </div>
     </div>
-    <script>
-      // Take a picture when a user clicks on the website and email it (See take_picture function & esp32 code)
-      document.addEventListener("click", function () {
-        fetch("/take_picture");
-      });
-    </script>
   </body>
 </html>

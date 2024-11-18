@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, jsonify
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from datetime import datetime
@@ -7,6 +8,8 @@ import serial
 import platform
 import logging
 import subprocess
+import socket
+from flask import Flask
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -42,6 +45,18 @@ messages = []
 office_hours = "Not set"
 current_message = ""
 
+def get_ip_address():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
 @app.route('/')
 def index():
     global room_name, room_status, office_hours
@@ -67,16 +82,9 @@ def display_route():
 def take_picture():
     with get_serial_connection() as serial_conn:
         if serial_conn is not None and serial_conn.is_open:
-            try:
-                logging.info("Sending command to take picture")
-                send_command_to_esp32('take_picture', serial_conn)
-                return '', 204  # No content response
-            except serial.SerialException as e:
-                logging.error(f"Error sending command: {e}")
-                return jsonify({"error": "Serial communication error"}), 500
-        else:
-            logging.error("Serial connection not available")
-            return jsonify({"error": "Serial connection not available"}), 500
+            logging.info("Sending command to take picture")
+            send_command_to_esp32('take_picture', serial_conn)
+            return '', 204  # No content response
 
 def send_command_to_esp32(command, serial_conn):
     if serial_conn is not None and serial_conn.is_open:
@@ -94,8 +102,8 @@ def mgmt():
     if request.method == 'POST':
         if 'room_name' in request.form:
             room_name = request.form['room_name']
-        elif 'current_message' in request.form:
-            current_message = request.form['current_message']
+        elif 'message' in request.form:
+            current_message = request.form['message']
         elif 'office_hours' in request.form:
             office_hours = request.form['office_hours']
 
@@ -140,4 +148,6 @@ def update_status():
     return jsonify({'status': 'success', 'new_status': room_status})
 
 if __name__ == '__main__':
+    ip_address = get_ip_address()
+    print(f" * Running on http://{ip_address}:5000")
     app.run(debug=True, host='0.0.0.0', port=5000)
