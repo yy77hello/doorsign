@@ -77,7 +77,32 @@
       <div class="sidenav">
         <h1 style="font-weight: bold">Office Hours</h1>
         <p id="officeHours">{{ office_hours }}</p>
+        <a href="{{ url_for('navigate') }}">Navigate to a Room</a>
       </div>
     </div>
+    <script>
+      // Take a picture when a user clicks on the website and email it (See take_picture function & esp32 code)
+      document.addEventListener("click", function (event) {
+        // Only take a picture if the click isnt on a message button
+        if (!event.target.classList.contains("message-btn")) {
+          fetch("/take_picture").catch((error) => {
+            console.log("Error taking picture:", error);
+          });
+        }
+      });
+      // Send messages to mgmt
+      function sendMessage(message) {
+        $.ajax({
+          url: "/send_message",
+          type: "POST",
+          data: { message: message },
+          success: function () {
+            // Optionally, you can add some feedback here
+            console.log("Message sent successfully");
+          },
+        });
+      }
+    </script>
+    <a href="/media">Watch media</a>
   </body>
 </html>

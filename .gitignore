@@ -1,5 +1,7 @@
 __pycache__
 static/qrcode.jpg
+static/qrcode.png
+static/uploads/*
 uploads/*
 maps/*
 route*

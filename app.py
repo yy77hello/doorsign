@@ -110,6 +110,10 @@ def mgmt():
     return render_template('mgmt.html', room_name=room_name, room_status=room_status,
                            office_hours=office_hours, current_message=current_message, messages=messages)
 
+@app.route('/media')
+def media():
+    return render_template('media.html')
+
 @app.route('/send_message', methods=['POST'])
 def send_message():
     message = request.form['message']
