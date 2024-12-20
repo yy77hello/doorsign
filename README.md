@@ -1,8 +1,9 @@
+
 # Digital Door Sign System with ESP32-CAM Integration
 
 ## Overview
 
-This project is a dynamic office management solution built with Flask, featuring real-time status updates, optional ESP32-CAM integration for enhanced visitor monitoring, and helping visitors to navigate office buildings.
+This project is a dynamic office management solution built with Flask, featuring real-time status updates, optional ESP32-CAM integration for enhanced visitor monitoring, displaying videos on the display, and a function to help visitors to navigate office buildings.
 
 - **Communicate information to visitors on the webpage**
 
@@ -22,6 +23,12 @@ This project is a dynamic office management solution built with Flask, featuring
 
 ### API Endpoints
 
+- `/`: Renders the main index page with current room information
+- `/navigate`: Handles navigation requests and redirects to route display
+- `/display_route`: Displays the navigation route image
+- `/take_picture`: Triggers the ESP32 to take a picture
+- `/mgmt`: Manages room settings and messages
+- `/media`: Renders the media page
 - `/update_status`: Cycle through room statuses (Open, Closed, Busy)
 - `/send_message`: Post new messages
 - `/get_messages`: Retrieve all messages
@@ -57,9 +64,11 @@ Python:
 You can install these python dependencies using ```pip install opencv-python numpy PyMuPDF pdf2image Pillow```
 
 ## Usage
+Open the terminal and navigate to the main directory of the program containing the `app.py` file
 Run the Flask app using ```python app.py```
 - Access the main dashboard at `http://localhost:5000`, or the provided address when running 'python app.py'
 - Use the management interface at `http://localhost:5000/mgmt`
+- Refer to the API endpoints listed above, or check app.py for a complete list.
 
 ### Configure QR Code
 
