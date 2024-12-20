@@ -6,3 +6,4 @@ uploads/*
 maps/*
 route*
 development_espcode_main.ino
+development_espcode_main/*
